@@ -1,3 +1,7 @@
+with open("T2D_Risk_Ver_6_25_25.py", "r") as file:
+    content = file.read()
+    count = content.count("#")
+    print("Number of hashtags:", count)
 #Ask the user their height, weight, family history of diabetes, how many relatives have the disease, the user's age, the user's ethnicity, and other factors, and calculate their risk of Type II Diabetes.
 #This version of the program was written by Yamir Richmond on Thursday, June 19, 2025.
 def calculate_bmi(feet, inches, lbs): #Python will show a weak warning if the parameters are the same as the names of variables in the program.
@@ -31,7 +35,7 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
     else:
         t2d_risk += 0
     if has_disrupted_sleep:
-        t2d_risk += 0
+        t2d_risk += 0 #For clarity, I assume the average person does struggle with insufficient sleep. Therefore, if the user does, the risk does not increase. If the user does not, the risk decreases.
     else:
         t2d_risk -= 10 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     if has_good_mental_health:
@@ -64,8 +68,8 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
     elif user_members > 1:
         t2d_risk = t2d_risk * 3 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     return t2d_risk #This is the final line of the function calculate_risk().
-def main():
-    while True:
+def main(): #Having a function main is necessary because it "wraps" the code. Otherwise, the unit test will run the actual prompts in the terminal, when it should just use the values in calculate_risk() to check if the values are consistent with the given risk.
+    while True: 
 
         user_input1 = input("Thank you for taking this questionnaire. It is designed to be accurate for assessing the risk of adult Type II Diabetes. \nThus, children aren't recommended to take it. The following two questions will ask for your height.\nWhat is your height, in whole feet?\n") #This is the first question of the program.
         try:
@@ -73,7 +77,7 @@ def main():
             if user_height_ft > 1:
                 break
             else:
-                print("Invalid. Please enter a value greater than 1.\n")
+                print("Invalid. Please enter a value greater than 1.\n") 
         except ValueError:
             print("Invalid.\n")
     while True:
@@ -91,8 +95,8 @@ def main():
 
         user_input3 = input("\nWhat is your weight? (lbs)\n")
         try:
-            user_weight = float(user_input3)
-            if user_weight > 0:
+            user_weight = float(user_input3) #User input can be a float because weight isn't a discrete variable.
+            if user_weight > 0: 
                 break
             else:
                 print("Invalid. Please enter a positive number.\n")
@@ -109,7 +113,7 @@ def main():
     while family_history != "YES" and family_history != "yes" and family_history != "Yes" and family_history != "No" and family_history != "NO" and family_history != "no": #Input validation to limit the user's responses to either "Yes" or "No".
         family_history = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if family_history == "YES" or family_history == "yes" or family_history == "Yes":
-        while True:
+        while True: #This program should have a 'while True: try/except' block for every instance that a user is supposed to enter a number.
 
             user_input4 = input("\nHow many members in your family have diabetes?\n")  # This is the first question of the program.
             try:
@@ -122,9 +126,9 @@ def main():
                 print("Invalid.\n")
     else:
         number_of_members = 0
-    while True:
+    while True: #It is impossible to break out of this loop if the user enters an invalid response. The user will only proceed if they enter a value the function can accept. Thus, the function calculate_risk() will not have null values for any of its arguments.
 
-        user_input5 = input("\nHow old are you?\n")
+        user_input5 = input("\nHow old are you?\n") #The user will input their age, in years. 
         try:
             user_age = int(user_input5)
             if user_age >= 18:
@@ -134,7 +138,7 @@ def main():
         except ValueError:
             print("Invalid. Please enter a number.\n")
     if user_age >= 45: #Many of these variables will be boolean, so the risk of Type II Diabetes will increase.
-        over_45 = True #This value is a boolean.
+        over_45 = True #This variable is a boolean.
     else:
         over_45 = False
     race = input("What is your race? (Please type the LETTER, not the whole race.)\nA. White\nB. African American\nC. Asian American\nD. Hispanic/Latino\nE. Pacific Islander\nF. Other\n")
@@ -144,15 +148,15 @@ def main():
         vulnerable_race = True #True and False must be written with the first letter in uppercase. The compiler won't recognize the values otherwise.
     else:
         vulnerable_race = False
-    while True:
-        user_input6 = input("\nHow many minutes per week, on average, do you exercise moderately (brisk walking, water aerobics, bicycling, dancing, etc.\n")
+    while True: #This is a while loop that is true indefinitely. The only way to get out of this loop is to satisfy a  condition to break the loop.
+        user_input6 = input("\nHow many minutes per week, on average, do you exercise moderately (brisk walking, water aerobics, bicycling, dancing, etc.\n") #I do not use int() on the input variable in this code because the user could enter something that is not an integer.
         try:
-            moderate_minutes = int(user_input6)
+            moderate_minutes = int(user_input6) 
             if moderate_minutes >= 0:
                 break
             else:
-                print("\nInvalid. Please type a non-negative integer.")
-        except ValueError:
+                print("\nInvalid. Please type a non-negative integer.") #This occurs if the user_input variable is a number, but is negative, thus being invalid as a total number of minutes exercised moderately.
+        except ValueError: #This occurs if it is impossible to convert the user_input variable into an integer.
             print("\nInvalid. Please enter a number.\n")
     while True:
         user_input7 = input("\nHow many minutes per week, on average, do you exercise vigorously (running, swimming laps, sports that require strong cardiorespiratory endurance, lifting heavy weights, etc.)?\n")
@@ -164,11 +168,11 @@ def main():
                 print("\nInvalid. Please type a non-negative integer.")
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
-    necessary_moderate_minutes = calculate_moderate_minutes(vigorous_minutes)
+    necessary_moderate_minutes = calculate_moderate_minutes(vigorous_minutes) #Given a certain number of minutes the user exercises vigorously, t
 
-    if moderate_minutes >= necessary_moderate_minutes: #In a later version of this program, I want the user to enter the number of minutes they exercise moderately and vigorously. The program will determine from that if their exercises is "active" enough to lower their risk of Type II Diabetes.
+    if moderate_minutes >= necessary_moderate_minutes: 
         active_lifestyle = True #If the user has an active lifestyle, this will decrease their chances of getting Type II Diabetes. Otherwise, it would not affect their chances.
-    else:
+    else: 
         active_lifestyle = False
     while True:
         user_input8 = input("\nHow often do you consume fruit in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
@@ -279,7 +283,7 @@ def main():
     else:
         T2D_risk_from_smoking = 0 #T2D risk from smoking does not change if the user does not smoke.
     sleep_condition = input("Do you struggle with disrupted or insufficient sleep?\n")
-    while sleep_condition != "YES" and sleep_condition != "yes" and sleep_condition != "Yes" and sleep_condition != "No" and sleep_condition != "NO" and sleep_condition != "no":
+    while sleep_condition != "YES" and sleep_condition != "yes" and sleep_condition != "Yes" and sleep_condition != "No" and sleep_condition != "NO" and sleep_condition != "no": #A try/except code block isn't necessary here because there is no reason to convert what the user types into a numeric variable. 
         sleep_condition = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if sleep_condition == "YES" or sleep_condition == "yes" or sleep_condition == "Yes":
             troubled_sleep = True
