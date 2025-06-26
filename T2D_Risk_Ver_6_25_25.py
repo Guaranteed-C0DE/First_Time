@@ -116,8 +116,8 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
                 number_of_members = int(user_input4) #This is the variable that will be passed to calculate_risk().
                 if number_of_members >= 1:
                     break
-                else:
-                    print("Invalid. Please enter a positive value.\n")
+                else: 
+                    print("Invalid. Please enter a positive value.\n") #The value must be positive. The user already declared that they have a history of Type II Diabetes, so at least one person in their family must have Type II Diabetes.
             except ValueError:
                 print("Invalid.\n")
     else:
@@ -127,10 +127,10 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         user_input5 = input("\nHow old are you? (yrs)\n") #The user will input their age, in years. 
         try:
             user_age = int(user_input5)
-            if user_age >= 18:
+            if user_age >= 18: 
                 break
             else:
-                print("Invalid. This questionnaire is not designed for people under 18.\n")
+                print("Invalid. This questionnaire is not designed for people under 18.\n") #The questionnaire does not provide accurate results for predicting diabetes for children.
         except ValueError: #The try/except blocks prevent the program from terminating, even if the user types an invalid argument.
             print("Invalid. Please enter a number.\n")
     if user_age >= 45: #Many of these variables will be boolean, so the risk of Type II Diabetes will increase.
@@ -161,7 +161,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
             if vigorous_minutes >= 0:
                 break
             else:
-                print("\nInvalid. Please type a non-negative integer.") #Non-negative because the user can enter 0 as an integer.
+                print("\nInvalid. Please type a non-negative integer.") #Non-negative because the user can enter 0 as a valid response.
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     necessary_moderate_minutes = calculate_moderate_minutes(vigorous_minutes) #Given a certain number of minutes the user exercises vigorously, the user has a certain number of minutes they must exercise moderately 
@@ -209,7 +209,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
             else:
                 print("\nInvalid. Please type a number between 1 and 4.\n")
         except ValueError:
-            print("\nInvalid. Please enter a number.\n")
+            print("\nInvalid. Please enter a number.\n")#The value calculated from the division need not be an integer. It just needs to be higher than 3.5.
     if (int(fruit_content) + int(vegetable_content) + int(whole_grain_content) + int(lean_protein_content))/4 >= 3.5: #This calculates the average amount the user's consumes healthy foods. If the average is high enough, their risk of Type II Diabetes will decrease.
         healthy_diet = True
     else:
