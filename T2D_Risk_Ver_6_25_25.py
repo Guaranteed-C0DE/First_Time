@@ -63,7 +63,25 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
         t2d_risk = t2d_risk * 2 #This value to this factor was calculated and/or specifically researched. Thus, this shouldn't be altered.
     elif user_members > 1:
         t2d_risk = t2d_risk * 3 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
-    return t2d_risk #This is the final line of the function calculate_risk().
+    if t2d_risk < 0: #Technically, it is possible for the user to receive a negative risk score. But that is a meaningless result, so if their calculation is less than 0, their actual risk will be 0.
+        t2d_risk = 0 
+    else:
+        t2d_risk = t2d_risk 
+    if t2d_risk > 100:
+    else:    t2d_risk = 100 #I wouldn't know what else to put for this else statement, but I believed one was necessary to cover all possibilities.
+    print("Your risk is " + str(t2d_risk) + ".") #str() is necessary here because print() only works with strings, and user risk would be a number, not a string.
+    if 0 <= t2d_risk <= 20: #This if statement assigns different values of category based on the value t2d_risk.
+        category = "low"
+    elif 20 < t2d_risk <= 40:
+        category = "somewhat low"
+    elif 40 < t2d_risk <= 60:
+        cateogory = "moderate"
+    elif 60 < t2d_risk <= 80:
+        category = "somewhat high"
+    elif t2d_risk > 80:
+        category = "high"
+        
+    return category #This is the final line of the function calculate_risk().
 def main(): #Having a function main is necessary because it "wraps" the code. Otherwise, the unit test will run the actual prompts in the terminal, when it should just use the values in calculate_risk() to check if the values are consistent with the given risk.
     while True: 
 
@@ -330,21 +348,8 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         is_drinker = True
     else:
         is_drinker = False #The only other possible values the user could have entered were 'no', 'NO', or 'No', so it would be logical to presume they are not a drinker. Thus, is_drinker is false.
-    user_risk = calculate_risk(bmi_over_25, active_lifestyle,  healthy_diet, diagnosed, over_45, vulnerable_race, T2D_risk_from_smoking, is_drinker, troubled_sleep, good_mental_health, bad_mental_health, over_sized_waist, has_symptoms, unhealthy_diet, number_of_members) #Variable user_risk is the risk of the user of getting Type II Diabetes.
-    if user_risk < 0: #Technically, it is possible for the user to receive a negative risk score. But that is a meaningless result, so if their calculation is less than 0, their actual risk will be 0.
-        user_risk = 0
-    else:
-        user_risk = user_risk #I wouldn't know what else to put for this else statement, but I believed one was necessary to cover all possibilities.
-    if user_risk <= 20: #This if statement prints different statements based on the value of user_risk.
-        print("Your risk is low. Your risk of Type II Diabetes is " + str(user_risk)) #str() is necessary here because print() only works with strings, and user risk would be a number, not a string.
-    elif  20 < user_risk <= 40: #These will be ranges of values, where the increment per each risk level is about 20. 
-        print("Your risk is somewhat low. Your risk of Type II Diabetes is " + str(user_risk)) #As of Thursday, June 26, 2025, one problem I have run into is that the user_risk is never greater than 20. I have yet to identify which factor(s) is/are the culprit.
-    elif  40 < user_risk <= 60:
-        print("Your risk is moderate. Your risk of Type II Diabetes is " + str(user_risk))
-    elif  60 < user_risk <= 80: 
-        print("Your risk is somewhat high. Your risk of Type II Diabetes is " + str(user_risk))
-    elif user_risk > 80: #This is the final elif statement, and could have been written as an else statement, since the only possible values for user_risk that wouldn't have a condition are the ones greater than 80. Therefore, there wouldn't need to be an else statement after it.
-        print("Your risk is high. Your risk of Type II Diabetes is " + str(user_risk))
+    user_category = calculate_risk(bmi_over_25, active_lifestyle,  healthy_diet, diagnosed, over_45, vulnerable_race, T2D_risk_from_smoking, is_drinker, troubled_sleep, good_mental_health, bad_mental_health, over_sized_waist, has_symptoms, unhealthy_diet, number_of_members) #Variable user_risk is the risk of the user of getting Type II Diabetes.
+    print("Your category of risk is " + category + ".")
 if __name__ == '__main__': #These lines are necessary for the test_T2D_Risk_Ver_6_25_25.py file.
     main() 
         #End of program.
