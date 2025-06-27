@@ -68,7 +68,8 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
     else:
         t2d_risk = t2d_risk 
     if t2d_risk > 100:
-    else:    t2d_risk = 100 #I wouldn't know what else to put for this else statement, but I believed one was necessary to cover all possibilities.
+        t2d_risk = 100
+    else:    t2d_risk = t2d_risk #I wouldn't know what else to put for this else statement, but I believed one was necessary to cover all possibilities.
     print("Your risk is " + str(t2d_risk) + ".") #str() is necessary here because print() only works with strings, and user risk would be a number, not a string.
     if 0 <= t2d_risk <= 20: #This if statement assigns different values of category based on the value t2d_risk.
         category = "low"
