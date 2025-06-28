@@ -6,6 +6,7 @@ def calculate_moderate_minutes(minutes): #The number of minutes the user exercis
     return 150 - (2 * minutes) #This value may be negative, but I didn't see that as needing correction because this is the NECESSARY number of minutes the user needs to exercise moderately. If this value is negative, that means that 0 is an upper bound for the number of minutes that the user must exercise moderately. But the user cannot exercise fewer than 0 minutes moderately.
 def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, is_vulnerable_race, is_a_smoker, is_a_drinker, has_disrupted_sleep, has_good_mental_health, has_bad_mental_health, has_large_waist, struggles_with_symptoms, eats_unhealthy, user_members): #Function declaration of calculate_risk().
     t2d_risk = 0 #t2d_risk is the user's risk of Type II Diabetes, and it is initialized as 0.
+    category = "null"
     if BMI: #Most of these if statements will increase the risk of Type II Diabetes if true, and will have no change to the risk if false.
         t2d_risk += 9.6 #This value to this factor was calculated and/or specifically researched. Thus, this shouldn't be altered.
     else: #The BMI factor requires 3 questions to be asked to the user.
@@ -71,12 +72,12 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
         t2d_risk = 100
     else:    t2d_risk = t2d_risk #I wouldn't know what else to put for this else statement, but I believed one was necessary to cover all possibilities.
     print("Your risk is " + str(t2d_risk) + ".") #str() is necessary here because print() only works with strings, and user risk would be a number, not a string.
-    if 0 <= t2d_risk <= 20: #This if statement assigns different values of category based on the value t2d_risk.
+    if t2d_risk <= 20: #This if statement assigns different values of category based on the value t2d_risk.
         category = "low"
     elif 20 < t2d_risk <= 40:
         category = "somewhat low"
     elif 40 < t2d_risk <= 60:
-        cateogory = "moderate"
+        category = "moderate"
     elif 60 < t2d_risk <= 80:
         category = "somewhat high"
     elif t2d_risk > 80:
@@ -87,7 +88,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
     while True: 
 
         user_input1 = input("Thank you for taking this questionnaire. It is designed to be accurate for assessing the risk of adult Type II Diabetes. \nThus, children aren't recommended to take it. The following two questions will ask for your height.\nWhat is your height, in whole feet?\n") #This is the first question of the program.
-        try: #The program will be anywhere from 24 - 26 questions.
+        try: #The program will be anywhere from 24 to 26 questions.
             user_height_ft = int(user_input1) #User BMI, Activity, healthy diet, unhealthy diet, smoking history, family history, and waist size will require more than one question.
             if user_height_ft > 1: #I'm declaring it necessary that the user must be at least 1 foot tall.
                 break
@@ -161,7 +162,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         race = str(input("\nPlease select from one of the available letters, and only from the available letters."))
     if race == "b" or race == "B" or race == "c" or race == "C" or race == "d" or race == "D" or race == "e" or race == "E": #A is not included in the options for this if statement because the 'white' race is not more vulnerable to Type II Diabetes, compared to other races.
         vulnerable_race = True #True and False must be written with the first letter in uppercase. The compiler won't recognize the values otherwise.
-    else: #An if-else statement inside of a while loop, and a try/except block inside of a while loop are the main ways I perform input validation in this program.
+    else: #An if-else statement inside a while loop, and a try/except block inside a while loop are the main ways I perform input validation in this program.
         vulnerable_race = False 
     while True: #This is a while loop that is true indefinitely. The only way to get out of this loop is to satisfy a  condition to break the loop.
         user_input6 = input("\nHow many minutes per week, on average, do you exercise moderately (brisk walking, water aerobics, bicycling, dancing, etc.\n") #I do not use int() on the input variable in this code because the user could enter something that is not an integer.
@@ -350,7 +351,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
     else:
         is_drinker = False #The only other possible values the user could have entered were 'no', 'NO', or 'No', so it would be logical to presume they are not a drinker. Thus, is_drinker is false.
     user_category = calculate_risk(bmi_over_25, active_lifestyle,  healthy_diet, diagnosed, over_45, vulnerable_race, T2D_risk_from_smoking, is_drinker, troubled_sleep, good_mental_health, bad_mental_health, over_sized_waist, has_symptoms, unhealthy_diet, number_of_members) #Variable user_risk is the risk of the user of getting Type II Diabetes.
-    print("Your category of risk is " + category + ".")
+    print("Your category of risk is " + user_category + ".")
 if __name__ == '__main__': #These lines are necessary for the test_T2D_Risk_Ver_6_25_25.py file.
     main() 
         #End of program.
