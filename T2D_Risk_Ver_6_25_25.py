@@ -24,7 +24,7 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
     else: #The has_been_diagnosed factor requires 1 question to be asked to the user.
         t2d_risk += 0
     if is_vulnerable_race:
-        t2d_risk += 5 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
+        t2d_risk += 10 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     else: #The is_vulnerable_race factor requires 1 question to be asked to the user.
         t2d_risk += 0
     if is_a_drinker:
@@ -43,27 +43,27 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
         t2d_risk += 5 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     else: #The has_bad_mental_health factor requires 1 question to be asked to the user.
         t2d_risk += 0
-    if has_large_waist:
-        t2d_risk += 10 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
-    else: #The has_large_waist factor requires 2 questions to be asked to the user.
-        t2d_risk += 0
     if struggles_with_symptoms:
         t2d_risk += 15 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     else: #The struggles_with_symptoms factor requires 1 question to be asked to the user.
         t2d_risk += 0
     if eats_unhealthy: #Even if the user does not eat unhealthy, this would not imply they are consuming the nutrients necessary to lower their risk of Type II Diabetes. That is why eats_healthy and eats_unhealthy are separate variables.
-        t2d_risk += 15 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
+        t2d_risk += 16 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     else: #The struggles_with_symptoms factor requires 4 questions to be asked to the user.
         t2d_risk += 0 #The is_a_smoker factor requires 1-2 questions to be asked to the user.
     t2d_risk += is_a_smoker #is_a_smoker is a numeric value, not a boolean.
     if is_over_45: #Age as a risk factor works differently because it increases the risk of Type II Diabetes multiplicatively.
-        t2d_risk = t2d_risk * 1.1 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
+        t2d_risk = t2d_risk * 1.3 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     if user_members == 0: #How many members a user has in their lineage that has Type II Diabetes also somewhat works differently. The more members a person has in their family that has Type II Diabetes, the greater the multiplicative factor is of their Type II Diabetes risk.
         t2d_risk += 0
     elif user_members == 1: #The user_members factor requires 1-2 questions to be asked to the user.
         t2d_risk = t2d_risk * 2 #This value to this factor was calculated and/or specifically researched. Thus, this shouldn't be altered.
     elif user_members > 1:
         t2d_risk = t2d_risk * 3 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
+    if has_large_waist:
+        t2d_risk *= 3 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
+    else: #The has_large_waist factor requires 2 questions to be asked to the user.
+        t2d_risk += 0
     if t2d_risk < 0: #Technically, it is possible for the user to receive a negative risk score. But that is a meaningless result, so if their calculation is less than 0, their actual risk will be 0.
         t2d_risk = 0 
     else:
