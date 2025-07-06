@@ -40,7 +40,7 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
     else: #The has_good_mental_health factor requires 1 question to be asked to the user.
         t2d_risk += 0
     if has_bad_mental_health:
-        t2d_risk += 5 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
+        t2d_risk += 15 #This value for this factor was written arbitrarily, either because no consistent value exists for this factor, or none was found. Thus, it is subject to being altered.
     else: #The has_bad_mental_health factor requires 1 question to be asked to the user.
         t2d_risk += 0
     if struggles_with_symptoms:
@@ -85,20 +85,21 @@ def calculate_risk(BMI, Activity, eats_healthy, has_been_diagnosed, is_over_45, 
         
     return category #This is the final line of the function calculate_risk().
 def main(): #Having a function main is necessary because it "wraps" the code. Otherwise, the unit test will run the actual prompts in the terminal, when it should just use the values in calculate_risk() to check if the values are consistent with the given risk.
-    while True: 
+    print("Thank you for taking this questionnaire. It is designed to be accurate for assessing the risk of adult Type II Diabetes. \nThus, children aren't recommended to take it. The following two questions will ask for your height.\n")
+    while True:
 
-        user_input1 = input("Thank you for taking this questionnaire. It is designed to be accurate for assessing the risk of adult Type II Diabetes. \nThus, children aren't recommended to take it. The following two questions will ask for your height.\nWhat is your height, in whole feet?\n") #This is the first question of the program.
+        user_input1 = input("\nQuestion 1: What is your height, in whole feet? Please use Arabic numerals.\n") #This is the first question of the program.
         try: #The program will be anywhere from 24 to 26 questions.
             user_height_ft = int(user_input1) #User BMI, Activity, healthy diet, unhealthy diet, smoking history, family history, and waist size will require more than one question.
             if user_height_ft > 1: #I'm declaring it necessary that the user must be at least 1 foot tall.
                 break
             else:
-                print("Invalid. Please enter a value greater than 1.\n") 
+                print("\nInvalid. Please enter a value greater than 1.\n")
         except ValueError: 
-            print("Invalid.\n")
+            print("\nInvalid. Please enter a positive number and only a positive number.\n")
     while True:
 
-        user_input2 = input("\nWhat is your height in inches leftover?\n") #The user_input variables do NOT represent the factors, but the numeric variables the user must enter a value for.
+        user_input2 = input("\nQuestion 2: What is your height in inches leftover? Please use Arabic numerals.\n") #The user_input variables do NOT represent the factors, but the numeric variables the user must enter a value for.
         try:
             user_height_in = int(user_input2)
             if 0 <= user_height_in < 12: #A value of 12 or greater is invalid because the user is entering in inches leftover.
@@ -109,7 +110,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
             print("Invalid. Please make sure your response contains only numbers.\n") 
     while True:
 
-        user_input3 = input("\nWhat is your weight? (lbs)\n") 
+        user_input3 = input("\nQuestion 3: What is your weight? (lbs) Please use Arabic numerals.\n")
         try:
             user_weight = float(user_input3) #User input can be a float because weight isn't a discrete variable.
             if user_weight > 0: 
@@ -125,47 +126,48 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
     else: #This else statement, indicating the boolean variable is False otherwise, is a necessity. If not included, the boolean variable might not be initialized when it's passed into the function.
         bmi_over_25 = False
     print("Your BMI is " + str(user_bmi) + ".") #To tell the user what their BMI is.
-    family_history = input("\nDoes anyone in your blood family have Type II Diabetes?\n") 
+    family_history = input("\nQuestion 4: Does anyone in your blood family have Type II Diabetes? Answer 'yes' or 'no'\n")
     while family_history != "YES" and family_history != "yes" and family_history != "Yes" and family_history != "No" and family_history != "NO" and family_history != "no": #Input validation to limit the user's responses to either "Yes" or "No".
         family_history = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if family_history == "YES" or family_history == "yes" or family_history == "Yes": 
         while True: #This program should have a 'while True: try/except' block for every instance that a user is supposed to enter a number.
 
-            user_input4 = input("\nHow many members in your family have diabetes?\n")  #The user_input occurrences indicate when the user MUST type a number value in order to proceed.
+            user_input4 = input("\nQuestion 5: How many members in your family have diabetes? Please use Arabic numerals.\n")  #The user_input occurrences indicate when the user MUST type a number value in order to proceed.
             try:
                 number_of_members = int(user_input4) #This is the variable that will be passed to calculate_risk().
                 if number_of_members >= 1:
                     break
                 else: 
-                    print("Invalid. Please enter a positive value.\n") #The value must be positive. The user already declared that they have a history of Type II Diabetes, so at least one person in their family must have Type II Diabetes.
+                    print("\nInvalid. Please enter a positive value.\n") #The value must be positive. The user already declared that they have a history of Type II Diabetes, so at least one person in their family must have Type II Diabetes.
             except ValueError:
                 print("Invalid.\n")
     else:
         number_of_members = 0 #This is important. The user may not have any members in their family at all that have Type II Diabetes, so if they answer "No" to "Does your family have a history of Type II Diabetes", the variable number_of_members will be 0. That variable will be passed to calculate_risk().
+        print("\nThen this program will skip Question 5 and move to Question 6!\n")
     while True: #It is impossible to break out of this loop if the user enters an invalid response. The user will only proceed if they enter a value the function can accept. Thus, the function calculate_risk() will not have null values for any of its arguments.
 
-        user_input5 = input("\nHow old are you? (yrs)\n") #The user will input their age, in years. 
+        user_input5 = input("\nQuestion 6: How old are you? (yrs) \nPlease type Arabic numerals, and only Arabic numerals, and no units or words.\n") #The user will input their age, in years.
         try:
             user_age = int(user_input5)
             if user_age >= 18: 
                 break
             else:
-                print("Invalid. This questionnaire is not designed for people under 18.\n") #The questionnaire does not provide accurate results for predicting diabetes for children.
+                print("\nInvalid. This questionnaire is not designed for people under 18.\n") #The questionnaire does not provide accurate results for predicting diabetes for children.
         except ValueError: #The try/except blocks prevent the program from terminating, even if the user types an invalid argument.
-            print("Invalid. Please enter a number.\n")
+            print("\nInvalid. Please enter a number.\n")
     if user_age >= 45: #Many of these variables will be boolean, so the risk of Type II Diabetes will increase.
         over_45 = True #This variable is a boolean.
     else:
         over_45 = False
-    race = input("What is your race? (Please type the LETTER, not the whole race.)\nA. White\nB. African American\nC. Asian American\nD. Hispanic/Latino\nE. Pacific Islander\nF. Other\n")
+    race = input("\nQuestion 7: What is your race? (Please type the LETTER, not the whole race.)\nA. White\nB. African American\nC. Asian American\nD. Hispanic/Latino\nE. Pacific Islander\nF. Other\n")
     while race != "A" and race != "a" and race != "B" and race != "b" and race != "C" and race != "c" and race != "D" and race != "d" and race != "E" and race != "e" and race != "F" and race != "f": #Input validation to limit the user's responses to either 'A', 'B', 'C', 'D', 'E', or 'F'.
-        race = str(input("\nPlease select from one of the available letters, and only from the available letters."))
+        race = str(input("\nPlease select from one of the available letters, and only from the available letters.\n"))
     if race == "b" or race == "B" or race == "c" or race == "C" or race == "d" or race == "D" or race == "e" or race == "E": #A is not included in the options for this if statement because the 'white' race is not more vulnerable to Type II Diabetes, compared to other races.
         vulnerable_race = True #True and False must be written with the first letter in uppercase. The compiler won't recognize the values otherwise.
     else: #An if-else statement inside a while loop, and a try/except block inside a while loop are the main ways I perform input validation in this program.
         vulnerable_race = False 
     while True: #This is a while loop that is true indefinitely. The only way to get out of this loop is to satisfy a  condition to break the loop.
-        user_input6 = input("\nHow many minutes per week, on average, do you exercise moderately (brisk walking, water aerobics, bicycling, dancing, etc.\n") #I do not use int() on the input variable in this code because the user could enter something that is not an integer.
+        user_input6 = input("\nQuestion 8: How many minutes per week, on average, do you exercise moderately (brisk walking, water aerobics, bicycling, dancing, etc.)? Please use Arabic numerals.\n") #I do not use int() on the input variable in this code because the user could enter something that is not an integer.
         try:
             moderate_minutes = int(user_input6) 
             if moderate_minutes >= 0: #So, in this case, for example, the logic is that if the user enters a non-negative value for their number of moderate exercise, 
@@ -175,7 +177,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         except ValueError: #This occurs if it is impossible to convert the user_input variable into an integer.
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input7 = input("\nHow many minutes per week, on average, do you exercise vigorously (running, swimming laps, sports that require strong cardiorespiratory endurance, lifting heavy weights, etc.)?\n") #CDC guidelines are that one should exercise at least 75 minutes vigorously, or at least 150 minutes moderately. I derived an equation from this to determine the necessary amount of moderate minutes for the user.
+        user_input7 = input("\nQuestion 9: How many minutes per week, on average, do you exercise vigorously (running, swimming laps, sports that require strong cardiorespiratory endurance, lifting heavy weights, etc.)? Please use Arabic numerals.\n") #CDC guidelines are that one should exercise at least 75 minutes vigorously, or at least 150 minutes moderately. I derived an equation from this to determine the necessary amount of moderate minutes for the user.
         try:
             vigorous_minutes = int(user_input7)
             if vigorous_minutes >= 0:
@@ -191,7 +193,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
     else: 
         active_lifestyle = False 
     while True: 
-        user_input8 = input("\nHow often do you consume fruit in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input8 = input("\nQuestion 10: How often do you consume fruit in your diet? Please use Arabic numerals. \nPlease type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             fruit_content = int(user_input8)
             if 1 <= fruit_content <= 4:
@@ -201,7 +203,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input9 = input("\nHow often do you consume vegetables in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input9 = input("\nQuestion 11: How often do you consume vegetables in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             vegetable_content = int(user_input9)
             if 1 <= vegetable_content <= 4:
@@ -211,7 +213,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input10 = input("\nHow often do you consume whole grains in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input10 = input("\nQuestion 12: How often do you consume whole grains (e.g. rice, oats, corn) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             whole_grain_content = int(user_input10)
             if 1 <= whole_grain_content <= 4:
@@ -221,7 +223,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input11 = input("\nHow often do you consume lean protein (e.g. fish, poultry, beans) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input11 = input("\nQuestion 13: How often do you consume lean protein (e.g. fish, poultry, beans) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             lean_protein_content = int(user_input11)
             if 1 <= lean_protein_content <= 4:
@@ -235,7 +237,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
     else:
         healthy_diet = False
     while True:
-        user_input12 = input("\nHow often do you consume sugary drinks (e.g. sweetened juices, sodas, or sports drinks) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input12 = input("\nQuestion 14: How often do you consume sugary drinks (e.g. sweetened juices, sodas, or sports drinks) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             sugary_drinks_content = int(user_input12)
             if 1 <= sugary_drinks_content <= 4:
@@ -245,7 +247,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input13 = input("\nHow often do you consume fried foods (e.g. french fries, fried chicken, or onion rings) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input13 = input("\nQuestion 15: How often do you consume fried foods (e.g. french fries, fried chicken, or onion rings) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             fried_food_content = int(user_input13)
             if 1 <= fried_food_content <= 4:
@@ -255,17 +257,17 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input14 = input("\nHow often do you consume processed meats (e.g. bacon, sausage, or deli meat) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input14 = input("\nQuestion 16: How often do you consume processed meats (e.g. bacon, sausage, or deli meat) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             processed_meat_content = int(user_input14)
-            if 1 <= fried_food_content <= 4:
+            if 1 <= processed_meat_content <= 4:
                 break
             else:
                 print("\nInvalid. Please type a number between 1 and 4.\n")
         except ValueError:
             print("\nInvalid. Please enter a number.\n")
     while True:
-        user_input15 = input("\nHow often do you consume sweets (e.g. cookies, candy, cakes) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
+        user_input15 = input("\nQuestion 17: How often do you consume sweets (e.g. cookies, candy, cakes) in your diet? Please type 1, 2, 3, or 4.\n1. Never\n2. Rarely \n3. Sometimes \n4. Often\n")
         try:
             dessert_content = int(user_input15)
             if 1 <= dessert_content <= 4:
@@ -278,18 +280,18 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         unhealthy_diet = True
     else:
         unhealthy_diet = False
-    Diagnosis = input("\nHave you ever been diagnosed with prediabetes, gestational diabetes, or any other type of diabetes, either now or in the past?\n") #I believe it's unlikely that the user would take this quiz if they are currently diagnosed with Type II Diabetes. That is why this question doesn't prompt they answer if they have been diagnosed for it.
+    Diagnosis = input("\nQuestion 18: Have you ever been diagnosed with prediabetes, gestational diabetes, or any other type of diabetes, either now or in the past?\nPlease answer yes or no.\n") #I believe it's unlikely that the user would take this quiz if they are currently diagnosed with Type II Diabetes. That is why this question doesn't prompt they answer if they have been diagnosed for it.
     while Diagnosis != "YES" and Diagnosis != "yes" and Diagnosis != "Yes" and Diagnosis != "No" and Diagnosis != "NO" and Diagnosis != "no":
         Diagnosis = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if Diagnosis == "Yes" or Diagnosis == "Yes" or Diagnosis == "yes":
         diagnosed = True
     else:
         diagnosed = False
-    smoking_history = input("\nHave you smoked consistently before?\n") #This smoking question will likely be changed to attempt to capture more possibilities of the user's smoking history.
+    smoking_history = input("\nQuestion 19: Have you smoked consistently before? Please enter 'yes' or 'no'.\n") #This smoking question will likely be changed to attempt to capture more possibilities of the user's smoking history.
     while smoking_history != "YES" and smoking_history != "yes" and smoking_history != "Yes" and smoking_history != "No" and smoking_history != "NO" and smoking_history != "no":
         smoking_history = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if smoking_history == "YES" or smoking_history == "yes" or smoking_history == "Yes":
-        current_smoker = input("\nDo you currently smoke?\n")
+        current_smoker = input("\nQuestion 20: Do you currently smoke? Please enter 'yes' or 'no'.\n")
         while current_smoker != "YES" and current_smoker != "yes" and current_smoker != "Yes" and current_smoker != "No" and current_smoker != "NO" and current_smoker != "no":
             current_smoker = input("\nInvalid response. Please answer 'yes' or 'no'.\n") #Overlooking this code, I would like every string requiring input to have '\n' on either side.
         if current_smoker == "YES" or current_smoker == "Yes" or current_smoker == "yes":
@@ -298,32 +300,33 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
             T2D_risk_from_smoking = 15 #T2D risk is lower if the user is not currently smoking, but did previously. This is value was written arbitrarily, and is subject to change.
     else: #This else statement aligns with the if-statement that determines whether the user selected "Yes" to the question. Because the user entered an acceptable response, their answer was one of the many variants of "Yes" and "No".
         T2D_risk_from_smoking = 0 #T2D risk from smoking does not change if the user does not smoke.
-    sleep_condition = input("\nDo you struggle with disrupted or insufficient sleep?\n")
+        print("\nThen this program will skip Question 20 and move to Question 21.")
+    sleep_condition = input("\nQuestion 21: Do you struggle with disrupted or insufficient sleep?\nPlease enter 'yes' or 'no'.\n")
     while sleep_condition != "YES" and sleep_condition != "yes" and sleep_condition != "Yes" and sleep_condition != "No" and sleep_condition != "NO" and sleep_condition != "no": #A try/except code block isn't necessary here because there is no reason to convert what the user types into a numeric variable. 
         sleep_condition = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if sleep_condition == "YES" or sleep_condition == "yes" or sleep_condition == "Yes":
             troubled_sleep = True
     else:
         troubled_sleep = False
-    good_mental_factor = input("\nDo you feel happy, fulfilled, and productive?\n")
+    good_mental_factor = input("\nQuestion 22: Do you feel happy, fulfilled, and productive? Please enter 'yes' or 'no'.\n")
     while good_mental_factor != "YES" and good_mental_factor != "yes" and good_mental_factor != "Yes" and good_mental_factor != "No" and good_mental_factor != "NO" and good_mental_factor != "no":
         good_mental_factor = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if good_mental_factor == "YES" or good_mental_factor == "yes" or good_mental_factor == "Yes":
         good_mental_health = True
     else:
         good_mental_health = False #Not having good mental health doesn't necessarily 
-    bad_mental_factor = input("Do you often struggle with depression or chronic stress?\n") #During research, these were the main mental health illnesses that contributed to Type II Diabetes.
+    bad_mental_factor = input("\nQuestion 23: Do you often struggle with depression or chronic stress?\nPlease enter 'yes' or 'no'.\n") #During research, these were the main mental health illnesses that contributed to Type II Diabetes.
     while bad_mental_factor != "YES" and bad_mental_factor != "yes" and bad_mental_factor != "Yes" and bad_mental_factor != "No" and bad_mental_factor != "NO" and bad_mental_factor != "no":
         bad_mental_factor = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if bad_mental_factor == "YES" or bad_mental_factor == "yes" or bad_mental_factor == "Yes":
         bad_mental_health = True
     else:
         bad_mental_health = False
-    sex = input("\nWhat is your biological sex? Please type the letter.\nM. Male\nF.Female\n") #Sex, not gender, because there are generally two sexes, with multiple genders.
+    sex = input("\nQuestion 24: What is your biological sex? Please type the letter.\nM. Male\nF.Female\n") #Sex, not gender, because there are generally two sexes, with multiple genders.
     while sex != "m" and sex != "M" and sex != "f" and sex != "F": #Input validation that ensures the user types only 'M' or 'F'.
         sex = input("\nInvalid response. Please answer 'M' or 'F'.\n") 
     while True:
-        user_input16 = input("\nWhat is the size of your waist? (in inches)\n")
+        user_input16 = input("\nQuestion 25: What is the size of your waist? (in inches) Please enter only the number, not any units or words.\n")
         try:
             waist = float(user_input16)
             if waist > 0:
@@ -336,14 +339,14 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         over_sized_waist = True #The actual sex of the person, along with the size of their waist, are not passed to the function calculate_risk(). What is passed to the function is the boolean over_sized_waist.
     else:
         over_sized_waist = False
-    symptoms = str(input("\nHave you struggled with at least 2 of the following symptoms in the last week?\nIncreased thirst\nUnexplained weight loss\nIncreased hunger\nFatigue\nSlow healing\nNumbness in the hands or feet\nBlurred vision\nFrequent urination\nDry skin\n")) #Adding the str() function here is more important because the user may enter a number of how many symptoms they have encountered.
+    symptoms = str(input("\nQuestion 26: Have you struggled with at least 2 of the following symptoms in the last week?\nIncreased thirst\nUnexplained weight loss\nIncreased hunger\nFatigue\nSlow healing\nNumbness in the hands or feet\nBlurred vision\nFrequent urination\nDry skin\nPlease enter 'yes' or 'no'.\n")) #Adding the str() function here is more important because the user may enter a number of how many symptoms they have encountered.
     while symptoms != "YES" and symptoms != "yes" and symptoms != "Yes" and symptoms != "No" and symptoms != "NO" and symptoms != "no": #As of Thursday, June 19, there are 7 instances of these 'weak' warnings where the code is duplicated. I did not try to resolve them. They don't stop the program from running. Furthermore, yes, I did copy the code to form these questions. I do not understand why these errors appear.
         symptoms = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if symptoms == "YES" or symptoms == "yes" or symptoms == "Yes": 
         has_symptoms = True
     else:
         has_symptoms = False
-    drinker = input("\nDo you routinely drink alcohol?\n") #This is the final question of the questionnaire.
+    drinker = input("\nQuestion 27: Do you routinely drink alcohol? Please enter 'yes' or 'no'.\n") #This is the final question of the questionnaire.
     while drinker != "YES" and drinker != "yes" and drinker != "Yes" and drinker != "No" and drinker != "NO" and drinker != "no":
         drinker = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if drinker == "YES" or drinker == "yes" or drinker == "Yes": #Being a drinker is the final factor with being considered in the risk of Type II Diabetes.
@@ -351,7 +354,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
     else:
         is_drinker = False #The only other possible values the user could have entered were 'no', 'NO', or 'No', so it would be logical to presume they are not a drinker. Thus, is_drinker is false.
     user_category = calculate_risk(bmi_over_25, active_lifestyle,  healthy_diet, diagnosed, over_45, vulnerable_race, T2D_risk_from_smoking, is_drinker, troubled_sleep, good_mental_health, bad_mental_health, over_sized_waist, has_symptoms, unhealthy_diet, number_of_members) #Variable user_risk is the risk of the user of getting Type II Diabetes.
-    print("Your category of risk is " + user_category + ".")
+    print("\nThank you for taking this questionnaire. Your category of risk is " + user_category + ".")
 if __name__ == '__main__': #These lines are necessary for the test_T2D_Risk_Ver_6_25_25.py file.
     main() 
         #End of program.

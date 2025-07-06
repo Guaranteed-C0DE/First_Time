@@ -1,6 +1,6 @@
 import unittest #unittest provides a framework for testing.
 
-from T2D_Risk_Ver_6_25_25 import calculate_risk #In the terminal, the code python -m unittest test_T2D_Risk_Ver_6_25_25 must be written in the terminal to run the test.
+from T2D_Risk_Ver_6_25_25 import calculate_risk #In the terminal, the code python3 -m unittest test_T2D_Risk_Ver_6_25_25 must be written in the terminal to run the test.
 
 class TestRisk(unittest.TestCase):
 
@@ -11,9 +11,12 @@ class TestRisk(unittest.TestCase):
     def test_me(self):
         self.assertEqual(calculate_risk(False, False, True, False, False, True, 0, False, False, False, False, False, True, True, 1), "somewhat low")
     def test_for_moderate(self):
-        self.assertEqual(calculate_risk(True, False, False, False, False, True, 0, True, True, False, True, False, False, True, 0), "moderate")
+        self.assertEqual(calculate_risk(False, False, False, False, False, True, 0, True, True, False, True, False, False, True, 0), "moderate")
     def test_for_somewhat_high(self):
         self.assertEqual(calculate_risk(False, True, False, False, True, True, 15, True, False, True, False, False, False, True, 2), "somewhat high")
-
+    def test_average(self):
+        self.assertEqual(calculate_risk(True, False, False, False, False, False, 0, False, True, True, False, True, False, True, 1), "high")
+    def test_for_low_2(self):
+        self.assertEqual(calculate_risk(True, True, True, False, False, False, 0, False, True, False, False, False, False, False, 0), "low")
 if __name__ == '__main__':
     unittest.main() #Calls the main function of T2D_Risk_Ver_6_25_25.
