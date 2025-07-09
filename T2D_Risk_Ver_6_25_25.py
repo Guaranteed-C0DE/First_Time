@@ -155,7 +155,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
                 print("\nInvalid. This questionnaire is not designed for people under 18.\n") #The questionnaire does not provide accurate results for predicting diabetes for children.
         except ValueError: #The try/except blocks prevent the program from terminating, even if the user types an invalid argument.
             print("\nInvalid. Please enter a number.\n")
-    if user_age >= 45: #Many of these variables will be boolean, so the risk of Type II Diabetes will increase.
+    if user_age > 45: #Many of these variables will be boolean, so the risk of Type II Diabetes will increase.
         over_45 = True #This variable is a boolean.
     else:
         over_45 = False
@@ -297,7 +297,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         if current_smoker == "YES" or current_smoker == "Yes" or current_smoker == "yes":
             T2D_risk_from_smoking = 35 #T2D risk is highest if the user is currently smoking.
         else:
-            T2D_risk_from_smoking = 15 #T2D risk is lower if the user is not currently smoking, but did previously. This is value was written arbitrarily, and is subject to change.
+            T2D_risk_from_smoking = 10 #T2D risk is lower if the user is not currently smoking, but did previously. This is value was written arbitrarily, and is subject to change.
     else: #This else statement aligns with the if-statement that determines whether the user selected "Yes" to the question. Because the user entered an acceptable response, their answer was one of the many variants of "Yes" and "No".
         T2D_risk_from_smoking = 0 #T2D risk from smoking does not change if the user does not smoke.
         print("\nThen this program will skip Question 20 and move to Question 21.")
@@ -346,7 +346,7 @@ def main(): #Having a function main is necessary because it "wraps" the code. Ot
         has_symptoms = True
     else:
         has_symptoms = False
-    drinker = input("\nQuestion 27: Do you routinely drink alcohol? Please enter 'yes' or 'no'.\n") #This is the final question of the questionnaire.
+    drinker = input("\nQuestion 27: Do you excessively drink alcohol? Please enter 'yes' or 'no'.\n") #This is the final question of the questionnaire.
     while drinker != "YES" and drinker != "yes" and drinker != "Yes" and drinker != "No" and drinker != "NO" and drinker != "no":
         drinker = input("\nInvalid response. Please answer 'yes' or 'no'.\n")
     if drinker == "YES" or drinker == "yes" or drinker == "Yes": #Being a drinker is the final factor with being considered in the risk of Type II Diabetes.
