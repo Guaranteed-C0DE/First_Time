@@ -58,5 +58,11 @@ class TestRisk(unittest.TestCase):
     def test_tenth_sample(self):
         print("\nTenth sample results")
         self.assertEqual(calculate_risk(True, False, False, True, True, True, 35, True, True, False, True, True, True, True, 3),	"high")
+    def test_somewhat_low(self):
+        print("\nTest 9 results:")
+        self.assertEqual(calculate_risk(True, True, False, False, False, True, 10, False, True, True, False, False, False, True, 0), "somewhat low")
+    def test_somewhat_high(self):
+        print("\nTest 10 results:")
+        self.assertEqual(calculate_risk(True, False, False, True, False, False, False, False, True, True, False, False, False, False, 0), "somewhat high")
 if __name__ == '__main__':
     unittest.main() #Calls the main function of T2D_Risk_Ver_6_25_25.
